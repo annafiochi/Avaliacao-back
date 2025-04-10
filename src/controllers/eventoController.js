@@ -12,14 +12,14 @@ class eventoController {
   };
 
   create = async (req, res) => {
-    const { titulo, data, local, descricao } = req.body;
+    const {  titulo, descricao, data, local, capacidade, categoria, preco } = req.body;
 
     try {
       if (!titulo || !data || !local || !descricao) {
-        return res.status(400).json({ erro: "Todos os campos (título, data, local e descrição) são obrigatórios" });
+        return res.status(400).json({ erro: "Todos os campos (titulo, data, local, descrição, data, local, capacidade, categoria, preco) são obrigatórios" });
       }
 
-      const novoEvento = await eventoModel.create(titulo, data, local, descricao);
+      const novoEvento = await eventoModel.create( titulo, descricao, data, local, capacidade, categoria, preco);
       res.status(201).json(novoEvento);
 
     } catch (error) {
@@ -30,15 +30,10 @@ class eventoController {
 
   update = async (req, res) => {
     const { id } = req.params;
-    const { concluida, descricao } = req.body;
+    const { titulo, descricao, data, local, capacidade, categoria, preco } = req.body;
 
     try {
-      const { titulo, descricao, data, local, capacidade, categoria, preco } = req.body;
-
-      if (!titulo || !descricao || !data || !local || !capacidade || !categoria || !preco) {
-        return res.status(400).json({ erro: "Todos os campos (título, descrição, data, local, capacidade, categoria, preço) são obrigatórios" });
-      }
-
+      // Verifica se todos os campos obrigatórios estão presentes
       const eventoAtualizada = await eventoModel.update(
         Number(id),
         titulo,

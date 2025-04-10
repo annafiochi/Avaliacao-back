@@ -2,37 +2,48 @@ import prisma from "../../prisma/client.js";
 
 class EventoModel {
   getAll = async () => {
-    return await prisma.task.findMany();
+    return await prisma.event.findMany();
   };
 
-  create = async (descricao) => {
-    return await prisma.task.create({
+  create = async (titulo, descricao, data, local, capacidade, categoria, preco) => {
+    return await prisma.event.create({
       data: {
+        titulo,
         descricao,
+        data,
+        local,
+        capacidade,
+        categoria,
+        preco,
+
       },
     });
   };
 
-  update = async (id, concluida) => {
+  update = async (id, titulo, descricao, data, local, capacidade, categoria, preco) => {
     try {
-      return await prisma.task.update({
+      return await prisma.event.update({
         where: { id },
         data: {
-          concluida: concluida !== undefined ? concluida : true,
+          titulo,
+          descricao,
+          data,
+          local,
+          capacidade,
+          categoria,
+          preco,
         },
       });
     } catch (error) {
       // Se a Evento não for encontrada, o Prisma lançará uma exceção
-      if (error.code === "P2025") {
-        return null;
-      }
+      console.error(error);
       throw error;
     }
   };
 
   delete = async (id) => {
     try {
-      await prisma.task.delete({
+      await prisma.event.delete({
         where: { id },
       });
       return true;
@@ -46,7 +57,7 @@ class EventoModel {
   };
 
   getById = async (id) => {
-    return await prisma.task.findUnique({
+    return await prisma.event.findUnique({
       where: { id },
     });
   };

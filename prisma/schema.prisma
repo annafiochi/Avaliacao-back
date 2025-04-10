@@ -7,18 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Task {
+model Event {
   id        Int     @id @default(autoincrement())
   titulo    String
   descricao String
-  data      DateTime
-  location  String
+  data      String
+  local     String
   capacidade Int
   categoria String
-  preco 
+  preco     Decimal
   criadaEm    DateTime @default(now())
-  atualizadaEm DateTime @default(now()) @updatedAt
+  atualizadaEm DateTime @updatedAt
   
 
-  @@map("tasks")
+  @@map("eventos")
 }
