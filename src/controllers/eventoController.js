@@ -11,6 +11,23 @@ class eventoController {
     }
   };
 
+  getById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const event = await eventoModel.getById(parseInt(id));
+
+      if (!event) {
+        return res.status(404).json({ erro: "evento não encontrado" });
+      }
+
+      res.json(event);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ erro: "Erro ao buscar evento" });
+    }
+  };
+
   create = async (req, res) => {
     const {  titulo, descricao, data, local, capacidade, categoria, preco } = req.body;
 
@@ -73,4 +90,6 @@ class eventoController {
     }
   };
 }
+
+
 export default new eventoController();
